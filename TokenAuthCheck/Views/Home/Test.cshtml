@@ -44,6 +44,24 @@
             var username = $("#username").val();
             var pass = $("#pass").val();
 
+
+        //    var settings = {
+        //        "url": "https://localhost:44354/api/Home/Authenticate",
+        //        "method": "POST",
+        //        "timeout": 0,
+        //        "headers": {
+        //            "Content-Type": "application/json"
+        //        },
+        //        "data": JSON.stringify({
+        //            "username": username,
+        //            "password": pass
+        //        }),
+        //    };
+        //    $.ajax(settings).done(function (response) {
+        //        $("#token").val(response);
+        //               getval(response);
+        //    });
+
             $.ajax({
                 type: "POST",
                 url: "/home/verify",
