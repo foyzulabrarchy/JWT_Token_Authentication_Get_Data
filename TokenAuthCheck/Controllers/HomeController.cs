@@ -16,31 +16,49 @@ namespace TokenAuthCheck.Controllers
         [HttpPost]
         public JsonResult Verify(string username, string password)
         {
-            username = "\""+username +"\"";
-            password = "\""+ password + "\"";
-            var client = new RestClient("https://service.elpl.app/ServiceApi/Authenticate");
-            client.Timeout = -1;
-            var request = new RestRequest(Method.POST);
-            request.AddHeader("Content-Type", "application/json");
-            var body = @"{
+            try
+            {
+                username = "\"" + username + "\"";
+                password = "\"" + password + "\"";
+                var client = new RestClient("https://service.elpl.app/ServiceApi/Authenticate");
+                client.Timeout = -1;
+                var request = new RestRequest(Method.POST);
+                request.AddHeader("Content-Type", "application/json");
+                var body = @"{
 " + "\n" +
-            @"  ""username"": "+username+ ",\n" +
-            @"  ""password"": " + password + " \n " +
-            @"}";
-            request.AddParameter("application/json", body, ParameterType.RequestBody);
-            IRestResponse response = client.Execute(request);
-            string token = response.Content.ToString().Split('"')[1];
-            return Json(token);
+                @"  ""username"": " + username + ",\n" +
+                @"  ""password"": " + password + " \n " +
+                @"}";
+                request.AddParameter("application/json", body, ParameterType.RequestBody);
+                IRestResponse response = client.Execute(request);
+                string token = response.Content.ToString().Split('"')[1];
+                return Json(token);
+            }
+            catch (Exception)
+            {
+
+                return Json(false);
+            }
+
         }
         [HttpPost]
         public JsonResult GetData(string token)
         {
-            var client = new RestClient("https://service.elpl.app/ServiceApi/Getinfo");
-            client.Timeout = -1;
-            var request = new RestRequest(Method.GET);
-            request.AddHeader("Authorization", "Bearer " + token);
-            IRestResponse response = client.Execute(request);
-            return Json(response.Content);
+            try
+            {
+                var client = new RestClient("https://service.elpl.app/ServiceApi/Getinfo");
+                client.Timeout = -1;
+                var request = new RestRequest(Method.GET);
+                request.AddHeader("Authorization", "Bearer " + token);
+                IRestResponse response = client.Execute(request);
+                return Json(response.Content);
+            }
+            catch (Exception)
+            {
+
+                return Json(false);
+            }
+            
         }
     }
 }

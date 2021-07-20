@@ -59,7 +59,7 @@
                         password: pass
                     }),
                 success: function (response) {
-                    if (response) {  
+                    if (response!=false) {  
                         $("#token").html(response);
                         getval(response);
                     } 
@@ -79,7 +79,7 @@
                     }),
                 
                 success: function (response) {
-                    if (response) {
+                    if (response != false) {
                         console.log(response);
 
                         $("#show").html(response);
