@@ -1,0 +1,117 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Test</title>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+    <div class="col-md-12">
+        <div class="row">
+            <label>User Name: </label>
+            <input type="text" value="" placeholder="Abrar" id="username" />
+        </div>
+        <div class="row">
+            <label>Password: </label>
+            <input type="text" value="" placeholder="test" id="pass" />
+        </div>
+        <div class="row">
+
+            <button id="submit">Verify</button>
+        </div>
+
+        <div class="row">
+            <label>Tocken: </label>
+            <h5 placeholder="generated token" id="token"></h5>
+        </div>
+        <div class="row">
+            <label>Get List: </label>
+            <p id="show"></p>
+        </div>
+    </div>
+    <script>
+
+       
+
+
+        $("#submit").click(function () {
+            var username = $("#username").val();
+            var pass = $("#pass").val();
+
+
+        //    var settings = {
+        //        "url": "https://localhost:44354/api/Home/Authenticate",
+        //        "method": "POST",
+        //        "timeout": 0,
+        //        "headers": {
+        //            "Content-Type": "application/json"
+        //        },
+        //        "data": JSON.stringify({
+        //            "username": username,
+        //            "password": pass
+        //        }),
+        //    };
+        //    $.ajax(settings).done(function (response) {
+        //        $("#token").val(response);
+        //               getval(response);
+        //    });
+
+            $.ajax({
+                type: "POST",
+                url: "/home/verify",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                dataType: "json",
+                data: JSON.stringify(
+                    {
+                        username: username,
+                        password: pass
+                    }),
+                success: function (response) {
+                    if (response) {  
+                        $("#token").html(response);
+                        getval(response);
+                    } 
+                }
+            });
+        });
+        function getval(responses) {
+            responses = $("#token").html();
+            $.ajax({
+                type: "POST",
+                url: "/Home/GetData",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(
+                    {
+                        token: responses
+                    }),
+                
+                success: function (response) {
+                    if (response) {
+                        console.log(response);
+
+                        $("#show").html(response);
+                      
+                    }
+                },
+                failure: function (response) {
+                    alert('error');
+                },
+                error: function (response) {
+                    alert('error');
+                }
+            });
+        }
+
+    </script>
+</body>
+
+</html>
